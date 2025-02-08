@@ -14,7 +14,6 @@
             content: `Command received: ${command}`
         };
 
-        // Log to check if the request is being sent
         console.log("Sending data to Discord webhook:", data);
 
         // Send the command to the Discord Webhook
@@ -26,12 +25,14 @@
             body: JSON.stringify(data)
         })
         .then(response => {
-            console.log("Response from Discord:", response);
-            return response.json();  // Log the response body
+            console.log("Response status:", response.status);  // Log status code
+            return response.json();  // Try to parse the response as JSON
         })
         .then(data => {
-            console.log("Response data:", data);  // Log the actual response data
-            document.getElementById("status").innerText = `Command executed: ${data.status || 'Success'}`;
+            console.log("Response data:", data);  // Log the response body (JSON data)
+            // If there is no `status` field in the response, treat it as a success
+            const statusMessage = data.status || 'Success';
+            document.getElementById("status").innerText = `Command executed: ${statusMessage}`;
         })
         .catch(err => {
             console.error("Error executing command:", err);  // Log the error
