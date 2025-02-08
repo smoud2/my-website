@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roblox Admin Panel</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background-color: #eee; }
+        h1 { text-align: center; }
+        #panel { margin: 20px auto; width: 300px; }
+        input, button { width: 100%; padding: 10px; margin: 5px 0; }
+        button { cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Roblox Game Admin Panel</h1>
+    <div id="panel">
+        <input type="text" id="command" placeholder="Enter command" />
+        <button onclick="sendCommand()">Send Command</button>
+        <div id="status"></div>
+    </div>
+
+    <script>
+        function sendCommand() {
+            const command = document.getElementById("command").value;
+            if (!command) {
+                alert("Please enter a command!");
+                return;
+            }
+
+            // Make an API request to your server or directly to Firebase
+            fetch("https://your-backend-api-or-firebase-endpoint.com/execute", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ command: command })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("status").innerText = `Command executed: ${data.status}`;
+            })
+            .catch(err => {
+                document.getElementById("status").innerText = "Error executing command!";
+            });
+        }
+    </script>
+</body>
+</html>
