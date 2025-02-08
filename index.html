@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roblox Admin Panel</title>
+    <title>Roblox Game Admin Panel</title>
     <style>
         body { font-family: Arial, sans-serif; padding: 20px; background-color: #eee; }
         h1 { text-align: center; }
@@ -21,6 +21,9 @@
     </div>
 
     <script>
+        // Replace this with your Discord Webhook URL
+        const webhookUrl = "https://discord.com/api/webhooks/1337764201317531771/IOOoPtOxa8qlq46YwtPhk5pT2WNKZiJybSP4spLVhI_0h8WD4JaOWEIQWUILIOy17McI";
+
         function sendCommand() {
             const command = document.getElementById("command").value;
             if (!command) {
@@ -28,17 +31,22 @@
                 return;
             }
 
-            // Make an API request to your server or directly to Firebase
-            fetch("https://your-backend-api-or-firebase-endpoint.com/execute", {
+            // Create the data object for the Discord message
+            const data = {
+                content: `Command received: ${command}`
+            };
+
+            // Send the command to the Discord Webhook
+            fetch(webhookUrl, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ command: command })
+                body: JSON.stringify(data)
             })
             .then(response => response.json())
             .then(data => {
-                document.getElementById("status").innerText = `Command executed: ${data.status}`;
+                document.getElementById("status").innerText = `Command executed: ${data.status || 'Success'}`;
             })
             .catch(err => {
                 document.getElementById("status").innerText = "Error executing command!";
