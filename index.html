@@ -28,30 +28,11 @@
                 return;
             }
 
-            // Log the command for debugging purposes
+            // Test log for debugging
             console.log("Command entered:", command);
 
-            // Send the command to Discord Webhook
-            fetch("https://discord.com/api/webhooks/1337764201317531771/IOOoPtOxa8qlq46YwtPhk5pT2WNKZiJybSP4spLVhI_0h8WD4JaOWEIQWUILIOy17McI", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    content: `Command received: ${command}`
-                })
-            })
-            .then(response => {
-                if (response.ok) {
-                    document.getElementById("status").innerText = `Command sent to Discord: ${command}`;
-                } else {
-                    document.getElementById("status").innerText = "Error sending command to Discord!";
-                }
-            })
-            .catch(err => {
-                document.getElementById("status").innerText = "Error sending command to Discord!";
-                console.error("Error sending to Discord:", err);
-            });
+            // Simple status update
+            document.getElementById("status").innerText = `Command entered: ${command}`;
         }
     </script>
 </body>
