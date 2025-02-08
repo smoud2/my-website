@@ -1,57 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roblox Game Admin Panel</title>
-    <style>
-        body { font-family: Arial, sans-serif; padding: 20px; background-color: #eee; }
-        h1 { text-align: center; }
-        #panel { margin: 20px auto; width: 300px; }
-        input, button { width: 100%; padding: 10px; margin: 5px 0; }
-        button { cursor: pointer; }
-    </style>
-</head>
-<body>
-    <h1>Roblox Game Admin Panel</h1>
-    <div id="panel">
-        <input type="text" id="command" placeholder="Enter command" />
-        <button onclick="sendCommand()">Send Command</button>
-        <div id="status"></div>
-    </div>
+<script>
+    // Replace this with your Discord Webhook URL
+    const webhookUrl = "https://discord.com/api/webhooks/1337764201317531771/IOOoPtOxa8qlq46YwtPhk5pT2WNKZiJybSP4spLVhI_0h8WD4JaOWEIQWUILIOy17McI";
 
-    <script>
-        // Replace this with your Discord Webhook URL
-        const webhookUrl = "https://discord.com/api/webhooks/1337764201317531771/IOOoPtOxa8qlq46YwtPhk5pT2WNKZiJybSP4spLVhI_0h8WD4JaOWEIQWUILIOy17McI";
-
-        function sendCommand() {
-            const command = document.getElementById("command").value;
-            if (!command) {
-                alert("Please enter a command!");
-                return;
-            }
-
-            // Create the data object for the Discord message
-            const data = {
-                content: `Command received: ${command}`
-            };
-
-            // Send the command to the Discord Webhook
-            fetch(webhookUrl, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById("status").innerText = `Command executed: ${data.status || 'Success'}`;
-            })
-            .catch(err => {
-                document.getElementById("status").innerText = "Error executing command!";
-            });
+    function sendCommand() {
+        const command = document.getElementById("command").value;
+        if (!command) {
+            alert("Please enter a command!");
+            return;
         }
-    </script>
-</body>
-</html>
+
+        // Create the data object for the Discord message
+        const data = {
+            content: `Command received: ${command}`
+        };
+
+        // Log to check if the request is being sent
+        console.log("Sending data to Discord webhook:", data);
+
+        // Send the command to the Discord Webhook
+        fetch(webhookUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            console.log("Response from Discord:", response);
+            return response.json();  // Log the response body
+        })
+        .then(data => {
+            console.log("Response data:", data);  // Log the actual response data
+            document.getElementById("status").innerText = `Command executed: ${data.status || 'Success'}`;
+        })
+        .catch(err => {
+            console.error("Error executing command:", err);  // Log the error
+            document.getElementById("status").innerText = "Error executing command!";
+        });
+    }
+</script>
